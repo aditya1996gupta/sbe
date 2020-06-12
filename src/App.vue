@@ -1,74 +1,82 @@
-<template lang="pug">
-  div#app
-    div(
-      v-for="user in users"
-      :key="users.id"
-    )
-      h1 {{ user.name }}
-      p {{ user.email }}
-    button(@click="fetchUsers") Click me!
+<template>
+<div id="app">
+  <header>
+    Vue-Router Transition & Scroll Behavior Test
+    <br/>
+    Click on home first.
+    <ul>
+      <li>
+        <router-link to="/">/home</router-link></li>
+      <li>
+        <router-link to="/foo">/foo</router-link>
+      </li>
+    </ul>
+  </header>
+  <transition name="fade-down" mode="out-in" appear>
+    <router-view></router-view>
+  </transition>
+</div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  data: function () {
     return {
-      users: []
+      msg: 'Hello World'
     }
-  },
-  methods: {
-    fetchUsers: function () {
-      const baseURI = 'https://jsonplaceholder.typicode.com/users'
-      this.$http.get(baseURI)
-      .then((result) => {
-        this.users = result.data
-      })
-    }
-  }
-}
+  } }
+
 </script>
 
 <style>
-  #app{
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  width: 640px;
-  margin: 0 auto;
-  color: #2c3e50;
-  margin-top: 60px;
-} 
+  body {
+    font-size: 20px;
+  }
+
+  header {
+    width: 100%;
+    line-height: 4rem;
+    background-color: #EEE;
+    text-align: center;
+  }
+
+  header ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  header li {
+    display: inline-block
+  }
+
+  .page {
+    margin: 0 auto;
+    width: 80%;
+    background-color: #FFF;
+  }
+
+  .content > div {
+    height: 200px;
+  }
+
+  .fade-down-enter-active {
+      animation-name: fadeInDown;
+      animation-duration: 0.5s;
+  }
+
+  .fade-down-leave-active {
+      animation-name: fadeOutDown;
+      animation-duration: 0.4s;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0.05; transform: translate3d(0, -25px, 0); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes fadeOutDown {
+    from {  opacity: 1; transform: none; }
+    to { opacity: 0.05; transform: translate3d(0, -25px, 0); }
+  }
 </style>
-<!-- <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
-</template>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style> -->
